@@ -32,7 +32,8 @@ def draw_bbox(img, box, cls_name, identity=None, offset=(0,0)):
 
 def draw_bboxes(img, bbox, identities=None, offset=(0,0)):
     for i,box in enumerate(bbox):
-        x1,y1,x2,y2 = [int(i) for i in box]
+        print i
+        x1,y1,x2,y2 = [int(j) for j in box]
         x1 += offset[0]
         x2 += offset[0]
         y1 += offset[1]

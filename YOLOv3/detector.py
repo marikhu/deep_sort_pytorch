@@ -66,7 +66,8 @@ class YOLOv3(object):
         return bbox, cls_conf, cls_ids
 
     def load_class_names(self,namesfile):
-        with open(namesfile, 'r', encoding='utf8') as fp:
+        #with open(namesfile, 'r', encoding='utf8') as fp:
+        with open(namesfile, 'r') as fp:
             class_names = [line.strip() for line in fp.readlines()]
         return class_names
 
