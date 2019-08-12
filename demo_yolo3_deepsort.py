@@ -50,7 +50,10 @@ class Detector(object):
             bbox_xcycwh, cls_conf, cls_ids = self.yolo3(im)
             if bbox_xcycwh is not None:
                 # select class person
-                mask = cls_ids==0
+                #mask = cls_ids==0
+
+                # select class car
+                mask = cls_ids==2
 
                 bbox_xcycwh = bbox_xcycwh[mask]
                 bbox_xcycwh[:,3:] *= 1.2
