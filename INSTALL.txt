@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+# In Ubuntu 18.04, python 2.7 worked fine
+# To install dependencies, simply run the command below
+# pip install -r requirements.txt
+
+# In Ubuntu 16.04, python 2.7 did not work as numpy complained that python 3.5 is required.
+# So, installed python3-pip
+
+# sudo apt-get install python3-pip
+# pip3 install numpy
+# pip3 install ALL THE PACKAGES specified in requirements.txt
+
