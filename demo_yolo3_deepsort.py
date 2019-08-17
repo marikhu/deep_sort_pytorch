@@ -43,15 +43,16 @@ class Detector(object):
 
     def detect(self):
         while self.vdo.grab(): 
-            start = time.time()
             _, ori_im = self.vdo.retrieve()
             im = cv2.cvtColor(ori_im, cv2.COLOR_BGR2RGB)
             im = ori_im
             bbox_xcycwh, cls_conf, cls_ids = self.yolo3(im)
+            iNumTracks = 0
+            start = time.time()
             if bbox_xcycwh is not None:
                 # select class car
                 mask = cls_ids==2
-		# include motorbike class as well
+		        # include motorbike class as well
                 mask = mask | (cls_ids==0)
                 #print mask
 
@@ -60,13 +61,15 @@ class Detector(object):
 
                 cls_conf = cls_conf[mask]
                 outputs = self.deepsort.update(bbox_xcycwh, cls_conf, im)
+                iNumTracks = len(outputs)
+                
                 if len(outputs) > 0:
                     bbox_xyxy = outputs[:,:4]
                     identities = outputs[:,-1]
                     ori_im = draw_bboxes(ori_im, bbox_xyxy, identities)
 
             end = time.time()
-            print("time: {}s, fps: {}".format(end-start, 1/(end-start)))
+            print("{} tracks, Tracking time: {}s, fps: {}".format(iNumTracks, end-start, 1/(end-start)))
 
             if self.args.display:
                 cv2.imshow("test", ori_im)
