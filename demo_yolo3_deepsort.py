@@ -46,9 +46,12 @@ class Detector(object):
             _, ori_im = self.vdo.retrieve()
             im = cv2.cvtColor(ori_im, cv2.COLOR_BGR2RGB)
             im = ori_im
+            detStartTime = time.time()
             bbox_xcycwh, cls_conf, cls_ids = self.yolo3(im)
+            detEndTime = time.time()
+            print("{} detections, Detection time: {}s, fps: {}".format(len(bbox_xcycwh), detEndTime-detStartTime, 1/(detEndTime-detStartTime)))
             iNumTracks = 0
-            start = time.time()
+            trackStartTime = time.time()
             if bbox_xcycwh is not None:
                 # select class car
                 mask = cls_ids==2
@@ -68,8 +71,8 @@ class Detector(object):
                     identities = outputs[:,-1]
                     ori_im = draw_bboxes(ori_im, bbox_xyxy, identities)
 
-            end = time.time()
-            print("{} tracks, Tracking time: {}s, fps: {}".format(iNumTracks, end-start, 1/(end-start)))
+            trackEndTime = time.time()
+            print("{} tracks, Tracking time: {}s, fps: {}".format(iNumTracks, trackEndTime-trackStartTime, 1/(trackEndTime-trackStartTime)))
 
             if self.args.display:
                 cv2.imshow("test", ori_im)
